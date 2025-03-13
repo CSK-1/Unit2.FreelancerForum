@@ -6,18 +6,11 @@
 
 // New freelancers continue to appear every few seconds, and the average starting price is updated accordingly.
 
-const newFreelancers = [
-    {name: "Dave", price: 40, occupation: "Teacher"},
-    {name: "Bill", price: 55, occupation: "Physical Therapist"},
-    {name: "Barbara", price: 75, occupation: "Product Manager"},
-    {name: "Phil", price: 60, occupation: "Quality Assurance"},
-    {name: "Betty", price: 45, occupation: "Intern"},
-    {name: "Carmen", price: 65, occupation: "Teacher"},
-    {name: "Anastasia", price: 90, occupation: "Programmer"},
-    {name: "Sarah", price: 80, occupation: "Physical Therapist"},
-    {name: "Frank", price: 35, occupation: "Assistant"},
-    {name: "Carol", price: 70, occupation: "Programmer"},
-];
+const names = ["Frank", "Sarah", "Anastasia", "Carmen", "Betty", "Phil", "Barbara", "Bill", "Dave"];
+const prices = [70, 35, 80, 90, 65, 45, 60, 75, 55, 40];
+const occupations = ["Teacher", "Physical Therapist", "Product Manager", "Quality Assurance", "Intern", "Programmer", "Assistant"]
+const maxFreelancers = 20;
+
 const freelancers = [
 	{
 		name: "Alice",
@@ -30,6 +23,8 @@ const freelancers = [
 		occupation: "Teacher",
 	},
 ];
+
+const carol = {name: "Carol", price: 70, occupation: "Programmer"}
 
 function init() {
 	const root = document.querySelector("#root");
@@ -45,7 +40,7 @@ function init() {
 	root.append(freelancerContainer);
 
 	renderFreelancers();
-}
+};
 
 function renderFreelancers() {
 	const container = document.querySelector("#freelancerContainer");
@@ -73,23 +68,33 @@ function renderFreelancers() {
         occupationDiv.append(freelancer.occupation);
         occupationContainer.append(occupationDiv);
 
-        let totalPrice = 0;
-        freelancers.map((freelancer) => totalPrice += freelancer.price);
-        average = totalPrice / freelancers.length;
+        average = getAverage();
         averageContainer.replaceWith(`${average.toFixed(2)}`);
 	});
+};
+
+function getAverage() {
+    let totalPrice = 0;
+    freelancers.map((freelancer) => totalPrice += freelancer.price);
+    return totalPrice / freelancers.length;
 }
 
 const addFreelancer = () => {
-    let newFreelancer = newFreelancers.pop()
-    freelancers.push(newFreelancer)
-    renderFreelancers()
-  }
+    const found = freelancers.find((freelancer) => freelancer.name === carol.name);
+    if (!found) {
+        freelancers.push(carol);
+    } else {
+        const name = names[Math.floor(Math.random() * names.length)];
+        const price = prices[Math.floor(Math.random() * prices.length)];
+        const occupation = occupations[Math.floor(Math.random() * occupations.length)];
+        freelancers.push({ name, price, occupation });
+    };
+  };
 
 const addFreelancerIntervalId = setInterval(() => {
     addFreelancer();
     renderFreelancers();
-    if(newFreelancers.length === 0 ){
+    if(freelancers.length >= maxFreelancers){
       clearInterval(addFreelancerIntervalId)
     }
   }, 3000);
