@@ -49,7 +49,7 @@ function renderFreelancers() {
                             <div id=freelancers>
                                 <section id=name class=freelancerContent><h3>Name</h3></section>
                                 <section id=occupation class=freelancerContent><h3>Occupation</h3></section>
-                                <section id=price class=freelancerContent><h3>Price</h3></section>
+                                <section id=price class=freelancerContent><h3>Starting Price</h3></section>
                             </div>`;
     const nameContainer = document.querySelector("#name");
     const priceContainer = document.querySelector("#price");
